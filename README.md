@@ -15,7 +15,8 @@ La otra forma de modelar la tabla fue la utilizacion de la estructura unordered_
 
 ## *Modelado de Funciones*
 Se utilizó para la entrada de datos dos funciones; *obtenerFrase* y *obtenerModo*, las cuales utilizan como flujo de entrada el estandard  de C++, incluido por la biblioteca iostream.
-Se utiliza la funcion *transform*, la cual es de orden superior, para convertirlas en lowerCase
+Se utiliza la funcion *transform*, la cual es de orden superior, para convertirlas en lowerCase.
+
 Una vez obtenidos tanto frase como modo, se invoca seleccionarConversor, en donde se utiliza un operador ternario para elegir cual es el modo que deseo utilizar para la conversion. 
 
 ### *Codificar* 
