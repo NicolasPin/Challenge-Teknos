@@ -15,27 +15,27 @@ string seleccionarConversor(string, string);
 string codificar(string);
 string decodificar(string);
 vector<string> quitarEspacios(string);
-wchar_t mapearACaracter(string);
+char mapearACaracter(string);
 void testCodificar();
 void testDecodificar();
 
 
 struct codigoTabla
 {
-    wchar_t letra;
+    char letra;
     string codigo;
 };
 
 vector<codigoTabla> tabla{
-    {L'a', "“#"}, {L'b', "%$"}, {L'c', "/("}, {L'd', ")="}, {L'e', "¿¡"},
-    {L'f', "|!"}, {L'g', "}["}, {L'h', "{]"}, {L'i', "**"}, {L'j', "^`"}, 
-    {L'k', "_.?"}, {L'l',"%_"}, {L'm', "$!”"}, {L'n', "¿?"}, {L'ñ', "¿?^"}, {L'o', "@"}, {L'p', "|@"},
-    {L'q', "@|"}, {L'r', "=!"}, {L's', ";*"}, {L't', "¡_"}, {L'u', "^)"},
-    {L'v', "(/"}, {L'w', "((//"}, {L'x', "||"}, {L'y', "|(/"}, {L'z', "_/_" },
+    {'a', "“#"}, {'b', "%$"}, {'c', "/("}, {'d', ")="}, {'e', "¿¡"},
+    {'f', "|!"}, {'g', "}["}, {'h', "{]"}, {'i', "**"}, {'j', "^`"}, 
+    {'k', "_.?"}, {'l',"%_"}, {'m', "$!”"}, {'n', "¿?"}, {'ñ', "¿?^"}, {'o', "@"}, {'p', "|@"},
+    {'q', "@|"}, {'r', "=!"}, {'s', ";*"}, {'t', "¡_"}, {'u', "^)"},
+    {'v', "(/"}, {'w', "((//"}, {'x', "||"}, {'y', "|(/"}, {'z', "_/_" },
 
-    {L'0', "="}, {L'1', "¡"}, {L'2', "“"}, {L'3', "#"}, {L'4', "$"},
-    {L'5', "%"}, {L'6', "^"}, {L'7', "/"}, {L'8', "("}, {L'9', ")"}, 
-    {L' ', "&_&"}
+    {'0', "="}, {'1', "¡"}, {'2', "“"}, {'3', "#"}, {'4', "$"},
+    {'5', "%"}, {'6', "^"}, {'7', "/"}, {'8', "("}, {'9', ")"}, 
+    {' ', "&_&"}
 };
 
 int main()
@@ -107,7 +107,7 @@ string decodificar(string frase) {
     string fraseDecodificada;
 
     for (const auto &codigo : codigos) {
-        wchar_t letra = mapearACaracter(codigo);
+        char letra = mapearACaracter(codigo);
         fraseDecodificada += letra;
     }
 
@@ -116,18 +116,18 @@ string decodificar(string frase) {
 
 vector<string> quitarEspacios(string frase){
     string codigo;
-    stringstream flujo(frase);
+    stringstream ss(frase);
 
     vector<string> codigos;
 
-    while (getline(flujo, codigo, ' ')) {
+    while (getline(ss, codigo, ' ')) {
         codigos.push_back(codigo);
     }
 
     return codigos;
 }
 
-wchar_t mapearACaracter(string codigo) {
+char mapearACaracter(string codigo) {
     for (const auto &encriptacion : tabla) {
         if (codigo == encriptacion.codigo) {
             return encriptacion.letra;
