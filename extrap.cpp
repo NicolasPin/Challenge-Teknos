@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 string obtenerFrase();
 bool esUnCodigo(string);
 string seleccionarConversor(string);
@@ -16,9 +17,12 @@ string codificar(string);
 string decodificar(string);
 vector<string> quitarEspacios(string);
 wchar_t mapearACaracter(string);
+
 void testCodificar();
 void testDecodificar();
 void testSeleccionarConversor();
+void testEsUnCodigo();
+
 
 
 struct codigoTabla
@@ -46,6 +50,7 @@ int main()
     testCodificar();
     testDecodificar();
     testSeleccionarConversor();
+    testEsUnCodigo();
     }
     
    
@@ -58,7 +63,7 @@ int main()
 
 string obtenerFrase()
 {
-    cout << "Ingrese una frase y el modo codificar o decodificar sera elegido automaticamente" << endl;
+    cout << "La frase que ingrese se codificara o decodificara automaticamente" << endl;
     string frase;
     getline(cin, frase);
     return frase;
@@ -66,17 +71,23 @@ string obtenerFrase()
 
 
 string seleccionarConversor(string frase){
-    return esUnCodigo(frase)? decodificar(frase): codificar(frase);
-    
+   if(esUnCodigo(frase)){
+        return decodificar(frase);
+   }
+   else{
+        return codificar(frase);
+   }
+  
 }
 
 bool esUnCodigo(string frase){
-     for(const auto& encriptacion : tabla){
+    transform(frase.begin(), frase.end(), frase.begin(), ::tolower);
+    for(const auto& encriptacion : tabla){
             if(frase.front() == encriptacion.letra){
-                return true;
+                return false;
             }
      }
-     return false;
+     return true;
 }
 
 string codificar(string frase){
@@ -102,7 +113,7 @@ string codificar(string frase){
 string decodificar(string frase) {
     vector<string> codigos = quitarEspacios(frase);
     string fraseDecodificada;
-
+    
     for (const auto &codigo : codigos) {
         wchar_t letra = mapearACaracter(codigo);
         fraseDecodificada += letra;
@@ -129,16 +140,26 @@ wchar_t mapearACaracter(string codigo) {
         if (codigo == encriptacion.codigo) {
             return encriptacion.letra;
         }
-    }
+    } return L' ';
 }
 
 void testSeleccionarConversor(){
     assert(seleccionarConversor("{] @ %_ “#") == "hola");
     assert(seleccionarConversor("¿¡ ;* &_& ^) ¿? &_& %$ ^) ¿¡ ¿? &_& )= ** “#") == "es un buen dia");
+    assert(seleccionarConversor("%$ “# ¿? |! ** ¿¡ %_ )= &_& “ = = )") == "banfield 2009");
 
     assert(seleccionarConversor("Esta Nublado") == "¿¡ ;* ¡_ “# &_& ¿? ^) %$ %_ “# )= @");
+    assert(seleccionarConversor("esta Nublado") == "¿¡ ;* ¡_ “# &_& ¿? ^) %$ %_ “# )= @");
     assert(seleccionarConversor("b") == "%$");
     
+}
+
+void testEsUnCodigo(){
+    assert(esUnCodigo("{] @ %_ “#") == true);
+    assert(esUnCodigo("%_ “#") == true);
+    assert(esUnCodigo("hola") == false);
+    assert(esUnCodigo("Nico") == false);
+    assert(esUnCodigo("holA") == false);
 }
 
 
