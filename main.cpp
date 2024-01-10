@@ -1,13 +1,14 @@
 #include <iostream>
 #include <cassert>
 #include <string>
-#include <cctype>           // Necesario para tolower
-#include <algorithm>        // Necesario para transform
+#include <cctype>           // tolower
+#include <algorithm>        // transform
 #include <vector>
 #include <sstream>
 
 
 using namespace std;
+
 
 string obtenerFrase();
 string obtenerModo();
@@ -16,6 +17,8 @@ string codificar(string);
 string decodificar(string);
 vector<string> quitarEspacios(string);
 wchar_t mapearACaracter(string);
+bool esUnCodigo(string);
+
 void testCodificar();
 void testDecodificar();
 
@@ -43,7 +46,7 @@ int main()
     {
     //PRUEBAS
     testCodificar();
-    testDecodificar(); //TONY
+    testDecodificar(); 
     }
     
    
@@ -85,31 +88,50 @@ string seleccionarConversor(string frase, string modo){
 string codificar(string frase){
     string fraseCodificada;
     transform(frase.begin(), frase.end(), frase.begin(), ::tolower);
-    for(const auto& letra : frase)
-    {
-        
-       for(const auto& encriptacion : tabla)
-       {        
-              if(letra == encriptacion.letra)
-              {
-                fraseCodificada += encriptacion.codigo + " ";
-              }
-       }
+
+    if(!esUnCodigo(frase)){
+            for(const auto& letra : frase)
+        {
+            
+        for(const auto& encriptacion : tabla){        
+                if(letra == encriptacion.letra)
+                {
+                    fraseCodificada += encriptacion.codigo + " ";
+                }
+            }
+        }
+    }else{
+        fraseCodificada = "Oye! tranquilo viejo. Eso ya esta codificado ";
     }
+    
 
     return fraseCodificada.substr(0, fraseCodificada.size() - 1);
 }
 
-
+bool esUnCodigo(string frase){
+    transform(frase.begin(), frase.end(), frase.begin(), ::tolower);
+    for(const auto& encriptacion : tabla){
+            if(frase.front() == encriptacion.letra){
+                return false;
+            }
+     }
+     return true;
+}
 
 string decodificar(string frase) {
     vector<string> codigos = quitarEspacios(frase);
     string fraseDecodificada;
 
-    for (const auto &codigo : codigos) {
-        wchar_t letra = mapearACaracter(codigo);
-        fraseDecodificada += letra;
+    if(esUnCodigo(frase)){
+        for (const auto &codigo : codigos)
+        {
+            wchar_t letra = mapearACaracter(codigo);
+            fraseDecodificada += letra;
+        }
+    }else{
+        fraseDecodificada = "Oye! tranquilo viejo. Eso ya esta decodificado ";
     }
+    
 
     return fraseDecodificada;
 }
@@ -132,7 +154,7 @@ wchar_t mapearACaracter(string codigo) {
         if (codigo == encriptacion.codigo) {
             return encriptacion.letra;
         }
-    }
+    } return L' ';
 }
 
 void testDecodificar(){
