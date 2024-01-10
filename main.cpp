@@ -43,7 +43,7 @@ int main()
     {
     //PRUEBAS
     testCodificar();
-    testDecodificar();
+    testDecodificar(); //TONY
     }
     
    
